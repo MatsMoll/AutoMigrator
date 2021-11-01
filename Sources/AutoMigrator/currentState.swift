@@ -7,7 +7,7 @@
 
 import Foundation
 import Fluent
-import PostgresKit
+import FluentPostgresDriver
 
 struct TableInformation: Codable {
     let tablename: String

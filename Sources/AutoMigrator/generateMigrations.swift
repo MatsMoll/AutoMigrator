@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import PostgresKit
+import FluentPostgresDriver
 import Fluent
 
 extension AutoMigrator {
