@@ -5,6 +5,10 @@ import PackageDescription
 
 let package = Package(
     name: "AutoMigrator",
+    platforms: [
+        .iOS(.v15),
+        .macOS(.v12)
+    ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
@@ -22,10 +26,13 @@ let package = Package(
         .target(
             name: "AutoMigrator",
             dependencies: [
-                .product(name: "Fluent", package: "fluent")
+                .product(name: "Fluent", package: "fluent"),
             ]),
         .testTarget(
             name: "AutoMigratorTests",
-            dependencies: ["AutoMigrator"]),
+            dependencies: [
+                "AutoMigrator",
+                .product(name: "Fluent", package: "fluent"),
+            ]),
     ]
 )

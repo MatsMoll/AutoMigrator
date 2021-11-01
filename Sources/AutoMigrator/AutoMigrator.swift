@@ -1,4 +1,10 @@
+import Vapor
 
 public struct AutoMigrator {
-    public init() {}
+    
+    let app: Application
+    
+    public init(app: Application) {
+        self.app = app
+    }
 }
