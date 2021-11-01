@@ -4,6 +4,10 @@ A package that generates version based migrations from `Fluent.Model` types.
 
 The project will check your database scheme and understand when you have added, changed or deleted a table.
 
+```swift
+.package(url: "https://github.com/MatsMoll/AutoMigrator", from: "0.1.0")
+```
+
 All that is required is to add a new target in your product, with a `main.swift` file and add the following code
 
 ```swift
