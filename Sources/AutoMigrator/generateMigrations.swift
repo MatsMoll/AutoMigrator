@@ -11,13 +11,13 @@ import Fluent
 
 extension AutoMigrator {
     
-    public func generateMigrations(newTables: [Table], outputDir: String) throws {
+    public func generateMigrations(tables: [Table], outputDir: String) throws {
         
         var state = try currentSchemeState(.psql)
 
         state["_fluent_migrations"] = nil
 
-        let migrations = try migrationFiles(from: state, newTables: newTables)
+        let migrations = try migrationFiles(from: state, newTables: tables)
 
         let workingDir = app.directory.workingDirectory
         let mainUrl = URL(fileURLWithPath: "\(outputDir)/\(migrations.migrationName).swift")
