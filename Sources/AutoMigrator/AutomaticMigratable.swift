@@ -16,7 +16,7 @@ public protocol AutomaticMigratable {
 }
 
 extension AutomaticMigratable {
-    var removeMigration: String { ".deleteField(\"\(fieldName)\")" }
+    public var removeMigration: String { ".deleteField(\"\(fieldName)\")" }
 }
 
 struct TableField: AutomaticMigratable {
