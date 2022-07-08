@@ -11,12 +11,27 @@ import Fluent
 func dataType<T>(from type: T.Type) -> DatabaseSchema.DataType {
     let reflection = String(describing: T.self)
     
-    switch reflection {
+    if reflection.starts(with: "Array") {
+        guard let firstIndex = reflection.firstIndex(of: "<"),
+              let lastIndex = reflection.firstIndex(of: ">")
+        else {
+            fatalError("Unsupported Array Datatype")
+        }
+        let type = String(reflection[reflection.index(after: firstIndex)..<lastIndex])
+        return .array(of: dataType(from: type))
+    } else {
+        return dataType(from: reflection)
+    }
+}
+
+private func dataType(from type: String) -> DatabaseSchema.DataType {
+    switch type {
     case "String": return .string
     case "UUID": return .uuid
     case "Double": return .double
     case "Int": return .int
     case "Date": return .datetime
+    case "Bool": return .bool
     default: fatalError("Unsupported Datatype")
     }
 }

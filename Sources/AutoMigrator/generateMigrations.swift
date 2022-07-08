@@ -19,7 +19,6 @@ extension AutoMigrator {
 
         let migrations = try migrationFiles(from: state, newTables: tables)
 
-        let workingDir = app.directory.workingDirectory
         let mainUrl = URL(fileURLWithPath: "\(outputDir)/\(migrations.migrationName).swift")
         try! migrations.combinedMigration.write(to: mainUrl, atomically: true, encoding: .utf8)
 
@@ -29,7 +28,7 @@ extension AutoMigrator {
         }
 
         app.logger.info("\(migrations.migrationName)", metadata: nil)
-        app.logger.info("Written to: \(workingDir)", metadata: nil)
+        app.logger.info("Written to: \(outputDir)", metadata: nil)
 
     }
 }
