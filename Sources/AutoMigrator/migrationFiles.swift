@@ -11,18 +11,23 @@ struct MigrationFiles {
     var subMigrations: [String: String]
     var combinedMigration: String
     let migrationName: String
+    let batchNumber: String
 }
 
 extension AutoMigrator {
+    var migrationFileHeader: String {
+        return """
+    import Foundation
+    import Fluent
+    
+    // Automatic generated migrations\n
+    
+    """
+    }
     
     func migrationFile(name: String, batch: Int, tableName: String, upgrade: String, downgrade: String) -> String {
     """
-    import Foundation
-    import Fluent
-
-    // Automatic generated migrations for \(name)
-    // Edit if needed
-
+    // MARK: - \(name)-batch-\(batch)
     extension MigrationBatch\(batch) {
         struct \(name) {}
     }
@@ -36,17 +41,14 @@ extension AutoMigrator {
             try await database.schema("\(tableName)")\(downgrade)
         }
     }
+    // MARK: - \(name)-batch-\(batch)-END
+    
     """
     }
 
     func migrationFile(name: String, upgrade: String, downgrade: String) -> String {
     """
-    import Foundation
-    import Fluent
-
-    // Automatic generated migrations for \(name)
-    // Edit if needed
-
+    // MARK: - \(name)
     struct \(name): AsyncMigration {
         func prepare(on database: Database) async throws {
             \(upgrade)
@@ -56,6 +58,8 @@ extension AutoMigrator {
             \(downgrade)
         }
     }
+    // MARK: - \(name)-END
+    
     """
     }
     
@@ -134,7 +138,8 @@ extension AutoMigrator {
         return MigrationFiles(
             subMigrations: migrationFiles,
             combinedMigration: totalFile,
-            migrationName: totalMigration
+            migrationName: totalMigration,
+            batchNumber: String(currentBatchNumber)
         )
     }
 

@@ -20,8 +20,6 @@ final class AutoMigratorTests: XCTestCase {
         let arrayString = dataType(from: [String].self)
         let arrayInt = dataType(from: [Int].self)
         
-        print(arrayString, arrayInt)
-        
         XCTAssertEqual(string, .string)
         XCTAssertEqual(uuid, .uuid)
         XCTAssertEqual(double, .double)

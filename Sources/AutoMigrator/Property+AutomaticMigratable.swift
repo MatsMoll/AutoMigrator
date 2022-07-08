@@ -12,12 +12,11 @@ func dataType<T>(from type: T.Type) -> DatabaseSchema.DataType {
     let reflection = String(describing: T.self)
     
     if reflection.starts(with: "Array") {
-        guard let firstIndex = reflection.firstIndex(of: "<"),
-              let lastIndex = reflection.firstIndex(of: ">")
-        else {
+        guard let firstIndex = reflection.range(of: "<")?.upperBound,
+              let lastIndex = reflection.range(of: ">")?.lowerBound else {
             fatalError("Unsupported Array Datatype")
         }
-        let type = String(reflection[reflection.index(after: firstIndex)..<lastIndex])
+        let type = String(reflection[firstIndex..<lastIndex])
         return .array(of: dataType(from: type))
     } else {
         return dataType(from: reflection)
