@@ -34,6 +34,8 @@ struct ColumnInformation: Codable {
         case "double precision": return .double
         case "bigint": return .int
         case "timestamp with time zone", "timestamp without time zone": return .datetime
+        case "boolean": return .bool
+        case "ARRAY": return .array
         default: fatalError("Unsupported Datatype")
         }
     }
